@@ -21,6 +21,7 @@
         "symfony/expression-language": "5.4.*",
         "symfony/flex": "^1.17|^2",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/maker-bundle": "^1.38",
         "symfony/property-access": "5.4.*",
         "symfony/property-info": "5.4.*",
         "symfony/proxy-manager-bridge": "5.4.*",
@@ -32,6 +33,8 @@
         "symfony/yaml": "5.4.*"
     },
     "require-dev": {
+        "symfony/stopwatch": "5.4.*",
+        "symfony/web-profiler-bundle": "5.4.*"
     },
     "config": {
         "allow-plugins": {
