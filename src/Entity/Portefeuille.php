@@ -2,13 +2,20 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\PortefeuilleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PortefeuilleRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=PortefeuilleRepository::class)
+ * @UniqueEntity(
+ *     fields={"user", "commerce"},
+ *     errorPath="commerce",
+ *     message="Ce client a déjà un portefeuille chez ce commerçant."
+ * )
  */
 class Portefeuille
 {
@@ -20,18 +27,23 @@ class Portefeuille
     private $id;
 
     /**
+     * 
+     * @Assert\PositiveOrZero(
+     *      message="Cette valeur doit être positive ou nulle"
+     * )
+     *
      * @ORM\Column(type="integer")
      */
     private $solde;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="portefeuilles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="portefeuilles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=commerce::class, inversedBy="portefeuilles")
+     * @ORM\ManyToOne(targetEntity=Commerce::class, inversedBy="portefeuilles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $commerce;
