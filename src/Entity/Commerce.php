@@ -3,17 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\UserRepository;
+use App\Repository\CommerceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
- * @ORM\Entity(repositoryClass=UserRepository::class)
- * @ORM\Table(name="`user`")
+ * @ORM\Entity(repositoryClass=CommerceRepository::class)
  */
-class User
+class Commerce
 {
     /**
      * @ORM\Id
@@ -28,17 +27,12 @@ class User
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $prenom;
+    private $adresse;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $numeroTele;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Portefeuille::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Portefeuille::class, mappedBy="commerce", orphanRemoval=true)
      */
     private $portefeuilles;
 
@@ -64,26 +58,14 @@ class User
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getAdresse(): ?string
     {
-        return $this->prenom;
+        return $this->adresse;
     }
 
-    public function setPrenom(?string $prenom): self
+    public function setAdresse(string $adresse): self
     {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getNumeroTele(): ?int
-    {
-        return $this->numeroTele;
-    }
-
-    public function setNumeroTele(int $numeroTele): self
-    {
-        $this->numeroTele = $numeroTele;
+        $this->adresse = $adresse;
 
         return $this;
     }
@@ -100,7 +82,7 @@ class User
     {
         if (!$this->portefeuilles->contains($portefeuille)) {
             $this->portefeuilles[] = $portefeuille;
-            $portefeuille->setUser($this);
+            $portefeuille->setCommerce($this);
         }
 
         return $this;
@@ -110,8 +92,8 @@ class User
     {
         if ($this->portefeuilles->removeElement($portefeuille)) {
             // set the owning side to null (unless already changed)
-            if ($portefeuille->getUser() === $this) {
-                $portefeuille->setUser(null);
+            if ($portefeuille->getCommerce() === $this) {
+                $portefeuille->setCommerce(null);
             }
         }
 
