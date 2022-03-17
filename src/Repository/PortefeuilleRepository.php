@@ -50,7 +50,7 @@ class PortefeuilleRepository extends ServiceEntityRepository
     * Recuperer les portefeuilles d'un user 
     */
     
-    public function findByUser($value)
+    public function findByUser($value): array
     {
         return $this->createQueryBuilder('u') 
             ->select('u','c')
@@ -58,18 +58,17 @@ class PortefeuilleRepository extends ServiceEntityRepository
             ->andWhere('u.user = :val')
             ->setParameter('val', $value)
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
 
     /**
-    * @return Portefeuille Returns an Portefeuille objects
+    * @return Portefeuille Return an Portefeuille object
     * Recuperer un portefeuille avec un user et un commerce
     */
 
-    public function findByUserAndCommerce($user, $commerce)
+    public function findByUserAndCommerce($user, $commerce): Portefeuille
     {
         return $this->createQueryBuilder('u') 
             ->select('u','c')
@@ -77,7 +76,7 @@ class PortefeuilleRepository extends ServiceEntityRepository
             ->andWhere('u.user = ' . $user->getId())
             ->andWhere('c.id = ' . $commerce->getId() )
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
     

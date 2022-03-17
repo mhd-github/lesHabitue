@@ -32,7 +32,7 @@ class Portefeuille
      *      message="Cette valeur doit être positive ou nulle"
      * )
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $solde;
 
@@ -53,12 +53,12 @@ class Portefeuille
         return $this->id;
     }
 
-    public function getSolde(): ?int
+    public function getSolde(): ?float
     {
         return $this->solde;
     }
 
-    public function setSolde(int $solde): self
+    public function setSolde(float $solde): self
     {
         $this->solde = $solde;
 
