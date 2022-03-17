@@ -45,22 +45,42 @@ class PortefeuilleRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Portefeuille[] Returns an array of Portefeuille objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Portefeuille[] Returns an array of Portefeuille objects
+    * Recuperer les portefeuilles d'un user 
+    */
+    
+    public function findByUser($value)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+        return $this->createQueryBuilder('u') 
+            ->select('u','c')
+            ->join('u.commerce','c')
+            ->andWhere('u.user = :val')
             ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('u.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
+
+    /**
+    * @return Portefeuille Returns an Portefeuille objects
+    * Recuperer un portefeuille avec un user et un commerce
     */
+
+    public function findByUserAndCommerce($user, $commerce)
+    {
+        return $this->createQueryBuilder('u') 
+            ->select('u','c')
+            ->join('u.commerce','c')
+            ->andWhere('u.user = ' . $user->getId())
+            ->andWhere('c.id = ' . $commerce->getId() )
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    
 
     /*
     public function findOneBySomeField($value): ?Portefeuille
