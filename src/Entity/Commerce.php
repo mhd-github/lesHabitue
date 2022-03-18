@@ -42,9 +42,15 @@ class Commerce
      */
     private $portefeuilles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="commerce", orphanRemoval=true)
+     */
+    private $transactions;
+
     public function __construct()
     {
         $this->portefeuilles = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,6 +106,36 @@ class Commerce
             // set the owning side to null (unless already changed)
             if ($portefeuille->getCommerce() === $this) {
                 $portefeuille->setCommerce(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): self
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions[] = $transaction;
+            $transaction->setCommerce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): self
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getCommerce() === $this) {
+                $transaction->setCommerce(null);
             }
         }
 
