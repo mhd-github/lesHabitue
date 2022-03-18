@@ -46,40 +46,38 @@ class PortefeuilleRepository extends ServiceEntityRepository
     }
 
     /**
-    * @return Portefeuille[] Returns an array of Portefeuille objects
-    * Recuperer les portefeuilles d'un user 
-    */
-    
+     * @return Portefeuille[] Returns an array of Portefeuille objects
+     * Recuperer les portefeuilles d'un user 
+     */
+
     public function findByUser($value): array
     {
-        return $this->createQueryBuilder('u') 
-            ->select('u','c')
-            ->join('u.commerce','c')
+        return $this->createQueryBuilder('u')
+            ->select('u', 'c')
+            ->join('u.commerce', 'c')
             ->andWhere('u.user = :val')
             ->setParameter('val', $value)
             ->orderBy('u.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
-    * @return Portefeuille Return an Portefeuille object
-    * Recuperer un portefeuille avec un user et un commerce
-    */
+     * @return Portefeuille Return an Portefeuille object
+     * Recuperer un portefeuille avec un user et un commerce
+     */
 
     public function findByUserAndCommerce($user, $commerce): Portefeuille
     {
-        return $this->createQueryBuilder('u') 
-            ->select('u','c')
-            ->join('u.commerce','c')
+        return $this->createQueryBuilder('u')
+            ->select('u', 'c')
+            ->join('u.commerce', 'c')
             ->andWhere('u.user = ' . $user->getId())
-            ->andWhere('c.id = ' . $commerce->getId() )
+            ->andWhere('c.id = ' . $commerce->getId())
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    
+
 
     /*
     public function findOneBySomeField($value): ?Portefeuille
